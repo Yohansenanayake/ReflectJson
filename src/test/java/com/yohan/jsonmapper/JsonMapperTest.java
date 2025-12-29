@@ -1,5 +1,7 @@
 package com.yohan.jsonmapper;
 
+import com.yohan.jsonmapper.annotations.JsonIgnore;
+import com.yohan.jsonmapper.annotations.JsonProperty;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -73,4 +75,34 @@ public class JsonMapperTest {
         var expected = "{\"title\":\"Bitcoin\",\"available\":false}";
         Assertions.assertEquals(expected,actual);
     }
+
+    @Test
+    @DisplayName("Should ignore fileds with @JsonIgnore fileds")
+    void shouldIgnoreJsonIgnoreFields() {
+        //given
+        record Book(String title ,@JsonIgnore String doi){}
+        var input = new Book("Bitcoin", "secret");
+        //when
+        var actual = jsonMapper.toJson(input);
+        //then
+        var expected = "{\"title\":\"Bitcoin\"}";
+        Assertions.assertEquals(expected,actual);
+    }
+
+    @Test
+    @DisplayName("Should rename fields with @JsonProperty")
+    void shouldRenameFieldsWithJsonProperty() {
+        //given
+        record Book(String title ,@JsonProperty("secret") int viewsecret){}
+        var input = new Book("Bitcoin", 23);
+        //when
+        var actual = jsonMapper.toJson(input);
+        //then
+        var expected = "{\"title\":\"Bitcoin\",\"secret\":23}";
+        Assertions.assertEquals(expected,actual);
+    }
+
+
+
+
 }

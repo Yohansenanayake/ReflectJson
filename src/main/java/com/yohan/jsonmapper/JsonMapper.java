@@ -1,5 +1,8 @@
 package com.yohan.jsonmapper;
 
+import com.yohan.jsonmapper.annotations.JsonIgnore;
+import com.yohan.jsonmapper.annotations.JsonProperty;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -11,8 +14,9 @@ public class JsonMapper {
         var fields = clazz.getDeclaredFields();
 
         return Arrays.stream(fields)
+                .filter(field -> !shouldIgnore(field))  //false predicate to remove
                 .map(field -> {
-                        var name = field.getName();
+                        var name = getName(field);
                         var value = asJsonValue(getFieldValue(field, obj));
                         return "\"%s\":%s" .formatted(name,value);
 
@@ -40,5 +44,17 @@ public class JsonMapper {
 
     private boolean isPrimitive(Object value) {
         return value instanceof Boolean || value instanceof Number ;
+    }
+
+    private boolean shouldIgnore(Field field) {
+        return field.isAnnotationPresent(JsonIgnore.class);
+    }
+
+    private Object getName(Field field) {
+        if (field.isAnnotationPresent(JsonProperty.class)){
+            var annotation = field.getAnnotation(JsonProperty.class);
+            return annotation.value();
+        }
+        return field.getName();
     }
 }
