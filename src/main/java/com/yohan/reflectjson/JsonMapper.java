@@ -1,7 +1,7 @@
-package com.yohan.jsonmapper;
+package com.yohan.reflectjson;
 
-import com.yohan.jsonmapper.annotations.JsonIgnore;
-import com.yohan.jsonmapper.annotations.JsonProperty;
+import com.yohan.reflectjson.annotations.JsonIgnore;
+import com.yohan.reflectjson.annotations.JsonProperty;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
