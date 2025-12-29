@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonMapperTest {
 
-    private JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JsonMapper();
 
     @Test
     @DisplayName("Should return {} for empty objects")
