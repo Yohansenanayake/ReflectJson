@@ -102,7 +102,26 @@ public class JsonMapperTest {
         Assertions.assertEquals(expected,actual);
     }
 
+    @Test
+    @DisplayName("Should ignore duplicate definitions ")
+    void shouldIgnoreDuplicates() {
+        //given
+        class Book{
 
+            private String title;
 
+            @JsonProperty("title")
+            public String getTitle() {
+                return title;
+            }
+        }
+        var input = new Book();
+        input.title = "JAVA";
+        //when
+        var actual = jsonMapper.toJson(input);
+        //then
+        var expected = "{\"title\":\"JAVA\"}";
+        Assertions.assertEquals(expected,actual);
+    }
 
 }
